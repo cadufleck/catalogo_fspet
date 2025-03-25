@@ -21,7 +21,7 @@ body, html {
 #cover {
   width: 210mm;
   height: 297mm;
-  margin: 20px auto; /* Centralizado com margens para exibir o fundo */
+  margin: 20px auto; /* Centralizado para evidenciar o fundo */
   position: relative;
   page-break-after: always;
 }
@@ -349,7 +349,7 @@ body, html {
   color: #aaa;
   cursor: pointer;
 }
-/* Ajuste do conteúdo dentro do modal de produto */
+/* Conteúdo interno do modal */
 .modal-content h2 {
   margin-bottom: 10px;
 }
@@ -386,15 +386,16 @@ body, html {
   background: #45a049;
 }
 
-/* ===== Responsividade e Zoom Automático para Mobile ===== */
+/* ===== Responsividade para Mobile (ajuste automático) ===== */
 @media (max-width: 768px) {
   .print-page {
     width: 100%;
-    height: auto;
-    margin: 10px 0;
+    height: auto; /* Altura ajustada conforme o conteúdo */
+    margin: 10px auto;
   }
   .product-grid-page {
     grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
   }
   .product-card {
     padding: 6px;
@@ -403,14 +404,15 @@ body, html {
 @media (max-width: 480px) {
   .print-page {
     width: 100%;
-    transform: scale(0.9);
-    transform-origin: top center;
+    height: auto;
+    margin: 10px auto;
   }
   .product-grid-page {
     grid-template-columns: 1fr;
+    grid-auto-rows: auto;
   }
   .product-card h3.product-name,
   .product-card p {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
