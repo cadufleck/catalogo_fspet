@@ -1,3 +1,49 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo de Produtos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Página de Capa -->
+  <section id="cover" class="print-page">
+    <img src="capa.jpg" alt="Capa do Catálogo" class="cover-img">
+  </section>
+
+  <!-- Seção de Produtos -->
+  <section id="products-section">
+    <div id="product-pages"></div>
+  </section>
+
+  <!-- Ícone do Carrinho (fixo na lateral) -->
+  <div id="cart-icon" onclick="toggleCart()">
+    <span id="cart-count">0</span> Carrinho
+  </div>
+
+  <!-- Painel do Carrinho (inicialmente oculto) -->
+  <div id="cart-panel">
+    <h3>Carrinho de Compras</h3>
+    <div id="cart-items"></div>
+    <button onclick="sendWhatsApp()">Enviar Orçamento via WhatsApp</button>
+    <button onclick="toggleCart()">Fechar</button>
+  </div>
+  
+  <!-- Modal para Adicionar ao Carrinho -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="modal-body">
+        <!-- Conteúdo preenchido dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+=======
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -43,3 +89,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+>>>>>>> c42f26541e705a5c281da2e75889335553e599ff
