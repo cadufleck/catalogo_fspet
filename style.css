@@ -1,0 +1,245 @@
+/* ===== Reset e Estilo Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+img {
+  border: none !important;
+}
+body, html {
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+/* ===== Página de Capa ===== */
+#cover {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  position: relative;
+  page-break-after: always;
+}
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Seção de Produtos ===== */
+#products-section {
+  margin: 20px auto;
+}
+
+/* ===== Ícone do Carrinho (fixo na lateral) ===== */
+#cart-icon {
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: #4CAF50;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 16px;
+  color: #fff;
+}
+#cart-icon span#cart-count {
+  background: red;
+  color: white;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* ===== Painel do Carrinho ===== */
+#cart-panel {
+  position: fixed;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  width: 250px;
+  background: white;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  padding: 10px;
+  display: none;
+  z-index: 1000;
+}
+#cart-panel h3 {
+  margin-bottom: 10px;
+}
+#cart-panel button {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* ===== Impressão (Formato A4) ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 2cm;
+  }
+  body, html {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+  }
+  #cart-icon,
+  #cart-panel {
+    display: none !important;
+  }
+}
+
+/* ===== Cada página de produtos no formato A4 ===== */
+.print-page {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+  position: relative;
+  background: #fff;
+  page-break-after: always;
+}
+
+/* Cabeçalho (210mm x 34,86mm) - camada inferior */
+.page-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 210mm;
+  height: 34.86mm;
+  background: url('cabecalho.jpg') no-repeat center/cover;
+  z-index: 1; /* Camada inferior */
+}
+
+/* Rodapé (210mm x 28,37mm) - camada inferior */
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 210mm;
+  height: 28.37mm;
+  background: url('rodape.jpg') no-repeat center/cover;
+  z-index: 1; /* Camada inferior */
+}
+
+/* Área de Conteúdo para Produtos (camada superior, overflow visível) */
+.page-content {
+  position: absolute;
+  top: 34.86mm;    /* abaixo do cabeçalho */
+  bottom: 28.37mm; /* acima do rodapé */
+  left: 10mm;
+  right: 10mm;
+  overflow: visible; /* Permite que o produto apareça mesmo que passe da área */
+  z-index: 2;        /* Fica sobre o rodapé/cabeçalho */
+}
+
+/*
+  Grid de Produtos: 12 por Página (4 colunas x 3 linhas)
+*/
+.product-grid-page {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 produtos por linha */
+  grid-template-rows: repeat(3, 1fr);    /* 3 linhas => 12 produtos por página */
+  gap: 2mm;
+  height: 100%;
+}
+
+/* ===== Cartões de Produtos ===== */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: transparent; /* Transparente, para ver rodapé atrás */
+  text-align: center;
+  padding: 1mm;
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+  transition: none;
+  overflow: visible;
+}
+.product-card:hover {
+  transform: none;
+}
+
+/* Imagens */
+.product-card img.product-img {
+  max-height: 35mm; /* Ajuste conforme necessário */
+  width: auto;
+  margin: 0 auto 3mm auto;
+  display: block;
+}
+
+/* Títulos e textos */
+.product-card h3.product-name {
+  font-size: 12px;
+  margin: 2px 0;
+}
+.product-card p.product-ref {
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 2px;
+}
+.product-card p.product-desc {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 2px;
+  line-height: 1.2em;
+}
+.product-card p.product-price {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+/* Ações do Produto (botão com ícone) */
+.product-card .product-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.product-card .product-actions button {
+  padding: 6px 10px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.product-card .product-actions button img {
+  width: 20px;
+  vertical-align: middle;
+}
+
+/* ===== Responsividade (para tela) ===== */
+@media (max-width: 768px) {
+  .print-page {
+    width: auto; /* Para visualização em telas menores */
+    margin: 10px;
+  }
+  .product-grid-page {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .product-card {
+    padding: 2mm;
+  }
+}
+@media (max-width: 480px) {
+  .product-grid-page {
+    grid-template-columns: 1fr;
+  }
+  .product-card h3.product-name,
+  .product-card p {
+    font-size: 12px;
+  }
+}
