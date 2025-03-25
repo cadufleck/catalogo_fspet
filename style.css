@@ -1,0 +1,293 @@
+/* ===== Reset e Estilo Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Remove sublinhado e borda das imagens */
+a {
+  text-decoration: none;
+}
+img {
+  border: none !important;
+}
+
+/* Corpo da página */
+body, html {
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+/* ===== Página de Capa ===== */
+#cover {
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto;
+}
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Seção de Produtos (na tela) ===== */
+#products-section {
+  width: 210mm;
+  margin: 20px auto;
+}
+
+/* ===== Ícone do Carrinho ===== */
+#cart-icon {
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: #4CAF50;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+}
+#cart-icon img {
+  width: 30px;
+  height: 30px;
+}
+#cart-icon span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+}
+
+/* ===== Painel do Carrinho ===== */
+#cart-panel {
+  position: fixed;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  width: 300px;
+  background: white;
+  border: 2px solid #4CAF50;
+  border-radius: 4px;
+  padding: 15px;
+  display: none;
+  z-index: 1000;
+}
+#cart-panel h3 {
+  margin-bottom: 10px;
+}
+#cart-panel button {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* ===== Impressão (Formato A4) ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 2cm;
+  }
+  body, html {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+  }
+  /* Oculta elementos interativos na impressão */
+  #cart-icon,
+  #cart-panel {
+    display: none !important;
+  }
+}
+
+/* ===== Páginas de Produtos para Impressão ===== */
+.print-page {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  background: #fff;
+  page-break-after: always;
+}
+
+/* Cabeçalho da Página (210mm x 34,86mm) */
+.page-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 210mm;
+  height: 34.86mm;
+  background: url('cabecalho.jpg') no-repeat center/cover;
+}
+
+/* Rodapé da Página (210mm x 28,37mm) */
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 210mm;
+  height: 28.37mm;
+  background: url('rodape.jpg') no-repeat center/cover;
+}
+
+/* Área de Conteúdo para Produtos */
+.page-content {
+  position: absolute;
+  top: 34.86mm;     /* Após o cabeçalho */
+  bottom: 28.37mm;  /* Antes do rodapé */
+  left: 10mm;
+  right: 10mm;
+  overflow: hidden; /* Evita que conteúdo extra estoure na impressão */
+}
+
+/*
+  Grid de Produtos: 12 por Página (3 colunas x 4 linhas)
+  - 3 colunas (grid-template-columns)
+  - 4 linhas (grid-template-rows)
+*/
+.product-grid-page {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 5mm;
+  height: 100%;
+}
+
+/* ===== Cartões de Produtos ===== */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribui o conteúdo */
+  background: #fff;
+  text-align: center;
+  padding: 3mm;
+  border: none;         /* Remove borda */
+  border-radius: 4px;
+  box-shadow: none;      /* Remove sombra */
+  transition: none;      /* Remove transição */
+  overflow: visible;      /* Permite exibir todo o conteúdo */
+}
+.product-card:hover {
+  transform: none;       /* Remove efeito de escala */
+}
+
+/* Imagens (ajustadas para caber 4 linhas) */
+.product-card img.product-img {
+  max-height: 30mm;
+  width: auto;
+  margin: 0 auto 3mm auto;
+  display: block;
+}
+
+/* Tamanhos de fonte */
+.product-card h3.product-name {
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+.product-card p.product-ref {
+  font-size: 11px;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+.product-card p.product-desc {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 3px;
+  line-height: 1.2em;
+}
+
+.product-card p.product-price {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* Ações do Produto (quantidade + botão) */
+.product-card .product-actions {
+  margin-top: 10px;
+}
+.product-card .product-actions input[type="number"] {
+  width: 45px;
+  padding: 2px;
+  margin-right: 4px;
+}
+.product-card .product-actions button {
+  padding: 4px 8px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* ===== Modal de Detalhes do Produto ===== */
+.modal {
+  display: none; /* Oculto inicialmente */
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 4px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Estilo para as ações dentro do modal */
+.modal-actions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== Responsividade ===== */
+
+/* Para tablets */
+@media (max-width: 768px) {
+  #products-section {
+    width: 95%;
+    margin: 10px auto;
+  }
+  .product-grid-page {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5mm;
+  }
+  .product-card {
+    padding: 2mm;
+  }
+}
+
+/* Para smartphones */
+@media (max-width: 480px) {
+  .product-grid-page {
+    grid-template-columns: 1fr;
+  }
+  .product-card h3.product-name,
+  .product-card p {
+    font-size: 12px;
+  }
+}
