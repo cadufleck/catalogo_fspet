@@ -18,20 +18,19 @@
 
   <!-- Ícone do Carrinho (fixo na lateral) -->
   <div id="cart-icon" onclick="toggleCart()">
-    <span id="cart-count">0</span> Carrinho
+    <img src="cart-icon.png" alt="Carrinho">
+    <span id="cart-count">0</span>
   </div>
 
   <!-- Painel do Carrinho (inicialmente oculto) -->
   <div id="cart-panel">
     <h3>Carrinho de Compras</h3>
-    <div id="cart-items">
-      <!-- Se o carrinho estiver vazio, será exibida uma mensagem -->
-    </div>
+    <div id="cart-items"></div>
     <button onclick="sendWhatsApp()">Enviar Orçamento via WhatsApp</button>
     <button onclick="toggleCart()">Fechar</button>
   </div>
   
-  <!-- Modal para Adicionar ao Carrinho -->
+  <!-- Modal de Detalhes do Produto -->
   <div id="product-modal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>

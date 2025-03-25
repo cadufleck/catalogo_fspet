@@ -84,9 +84,14 @@ function displayProductPages(productsData) {
         <p class="product-desc">${product.descricao}</p>
         <p class="product-price">R$ ${product.valor.toFixed(2)}</p>
         <div class="product-actions">
-          <button onclick="openAddToCartModal(${start+index})">
-            Adicionar ao Carrinho
-          </button>
+          <input
+            type="number"
+            id="qty-${start+index}"
+            min="1"
+            value="1"
+          >
+          <button onclick="addToCart(${start+index}, document.getElementById('qty-${start+index}').value)">Adicionar</button>
+          <button onclick="openProductDetails(${start+index})">Ver Detalhes</button>
         </div>
       `;
       gridDiv.appendChild(cardDiv);
@@ -104,48 +109,6 @@ function displayProductPages(productsData) {
   }
 }
 
-/**
- * Abre o modal para adicionar o produto ao carrinho, solicitando a quantidade.
- */
-function openAddToCartModal(productIndex) {
-  modalProductIndex = productIndex; // Armazena o índice do produto
-  const product = products[productIndex];
-  
-  const modalBody = document.getElementById('modal-body');
-  modalBody.innerHTML = `
-    <h2>${product.nome}</h2>
-    <p><strong>Ref:</strong> ${product.referencia}</p>
-    <p><strong>Preço:</strong> R$ ${product.valor.toFixed(2)}</p>
-    <div class="modal-actions">
-      <label for="modal-qty">Quantidade:</label>
-      <input type="number" id="modal-qty" value="1" min="1">
-      <button onclick="addToCartFromModal()">Adicionar ao Carrinho</button>
-    </div>
-  `;
-  
-  document.getElementById('product-modal').style.display = 'block';
-}
-
-/**
- * Lê a quantidade informada no modal e adiciona ao carrinho.
- */
-function addToCartFromModal() {
-  const qtyInput = document.getElementById('modal-qty');
-  const qty = parseInt(qtyInput.value) || 1;
-  addToCart(modalProductIndex, qty);
-  closeModal();
-}
-
-/**
- * Fecha o modal de adicionar ao carrinho.
- */
-function closeModal() {
-  document.getElementById('product-modal').style.display = 'none';
-}
-
-/**
- * Adiciona um produto ao carrinho com a quantidade especificada.
- */
 function addToCart(productIndex, quantity) {
   const qty = parseInt(quantity) || 1;
   const product = products[productIndex];
@@ -162,32 +125,24 @@ function addToCart(productIndex, quantity) {
   }
 }
 
-/**
- * Atualiza a exibição do carrinho (quantidade de itens e lista).
- */
 function updateCart() {
   const cartCountElem = document.getElementById('cart-count');
   const cartItemsElem = document.getElementById('cart-items');
   cartCountElem.textContent = cart.length;
   
-  if (cart.length === 0) {
-    cartItemsElem.innerHTML = `<p>Carrinho vazio!</p>`;
-  } else {
-    // Monta o HTML do carrinho, com opção de alterar quantidade e remover
-    cartItemsElem.innerHTML = cart.map((item, index) => {
-      const totalItem = item.quantity * item.valor;
-      return `
-        <div class="cart-item">
-          <span>${item.nome} - R$ ${item.valor.toFixed(2)}</span>
-          <br>
-          <label>Qtd:</label>
-          <input type="number" value="${item.quantity}" min="1" onchange="updateCartItem(${index}, this.value)">
-          <span>= R$ ${totalItem.toFixed(2)}</span>
-          <button onclick="removeFromCart(${index})">Remover</button>
-        </div>
-      `;
-    }).join('') + `<button onclick="clearCart()">Limpar Carrinho</button>`;
-  }
+  cartItemsElem.innerHTML = cart.map((item, index) => {
+    const totalItem = item.quantity * item.valor;
+    return `
+      <div class="cart-item">
+        <span>${item.nome} - R$ ${item.valor.toFixed(2)}</span>
+        <br>
+        <label>Qtd:</label>
+        <input type="number" value="${item.quantity}" min="1" onchange="updateCartItem(${index}, this.value)">
+        <span>= R$ ${totalItem.toFixed(2)}</span>
+        <button onclick="removeFromCart(${index})">Remover</button>
+      </div>
+    `;
+  }).join('') + `<button onclick="clearCart()">Limpar Carrinho</button>`;
 }
 
 function updateCartItem(index, newQty) {
@@ -212,17 +167,11 @@ function removeFromCart(index) {
   updateCart();
 }
 
-/**
- * Exibe ou oculta o painel do carrinho (flutuante).
- */
 function toggleCart() {
   const panel = document.getElementById('cart-panel');
   panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
 }
 
-/**
- * Envia a listagem do carrinho via WhatsApp.
- */
 function sendWhatsApp() {
   if (cart.length === 0) {
     alert('Carrinho vazio!');
@@ -233,4 +182,37 @@ function sendWhatsApp() {
     cart.map(item => `➤ ${item.nome} - ${item.quantity} x R$ ${item.valor.toFixed(2)}`).join('\n') +
     `\n\n*Total: R$ ${total.toFixed(2)}*`;
   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
+}
+
+// Funções para o modal de detalhes do produto
+function openProductDetails(productIndex) {
+  const product = products[productIndex];
+  if (!product) return;
+  
+  modalProductIndex = productIndex; // Armazena o índice do produto para uso posterior
+  const modalBody = document.getElementById('modal-body');
+  modalBody.innerHTML = `
+    <img src="images/${product.imagem}" alt="${product.nome}" style="width:100%; max-height:300px; object-fit:cover;">
+    <h2>${product.nome}</h2>
+    <p><strong>Referência:</strong> ${product.referencia}</p>
+    <p><strong>Descrição:</strong> ${product.descricao}</p>
+    <p><strong>Preço:</strong> R$ ${product.valor.toFixed(2)}</p>
+    <div class="modal-actions">
+      <label for="modal-qty">Qtd:</label>
+      <input type="number" id="modal-qty" value="1" min="1">
+      <button onclick="addToCartFromModal()">Adicionar ao Carrinho</button>
+    </div>
+  `;
+  document.getElementById('product-modal').style.display = 'block';
+}
+
+function addToCartFromModal() {
+  const qtyInput = document.getElementById('modal-qty');
+  const qty = parseInt(qtyInput.value) || 1;
+  addToCart(modalProductIndex, qty);
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('product-modal').style.display = 'none';
 }
