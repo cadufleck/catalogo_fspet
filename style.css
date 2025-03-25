@@ -37,34 +37,31 @@ body, html {
   margin: 20px auto;
 }
 
-/* ===== Ícone do Carrinho ===== */
+/* ===== Ícone do Carrinho (texto maior e mais área clicável) ===== */
 #cart-icon {
   position: fixed;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
   background: #4CAF50;
-  padding: 10px;
-  border-radius: 50%;
+  padding: 15px;
+  border-radius: 8px;
   cursor: pointer;
   z-index: 1000;
+  font-size: 16px;
+  color: #fff;
 }
-#cart-icon img {
-  width: 30px;
-  height: 30px;
-}
-#cart-icon span {
-  position: absolute;
-  top: -5px;
-  right: -5px;
+#cart-icon span#cart-count {
   background: red;
   color: white;
-  font-size: 12px;
-  width: 18px;
-  height: 18px;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   text-align: center;
-  line-height: 18px;
+  line-height: 20px;
+  display: inline-block;
+  margin-right: 8px;
 }
 
 /* ===== Painel do Carrinho ===== */
@@ -100,7 +97,6 @@ body, html {
     height: 297mm;
     background: #fff;
   }
-  /* Oculta elementos interativos na impressão */
   #cart-icon,
   #cart-panel {
     display: none !important;
@@ -139,17 +135,15 @@ body, html {
 /* Área de Conteúdo para Produtos */
 .page-content {
   position: absolute;
-  top: 34.86mm;     /* Após o cabeçalho */
-  bottom: 28.37mm;  /* Antes do rodapé */
+  top: 34.86mm;
+  bottom: 28.37mm;
   left: 10mm;
   right: 10mm;
-  overflow: hidden; /* Evita que conteúdo extra estoure na impressão */
+  overflow: hidden;
 }
 
 /*
   Grid de Produtos: 12 por Página (3 colunas x 4 linhas)
-  - 3 colunas (grid-template-columns)
-  - 4 linhas (grid-template-rows)
 */
 .product-grid-page {
   display: grid;
@@ -163,21 +157,21 @@ body, html {
 .product-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribui o conteúdo */
+  justify-content: space-between;
   background: #fff;
   text-align: center;
   padding: 3mm;
-  border: none;         /* Remove borda */
+  border: none;
   border-radius: 4px;
-  box-shadow: none;      /* Remove sombra */
-  transition: none;      /* Remove transição */
-  overflow: visible;      /* Permite exibir todo o conteúdo */
+  box-shadow: none;
+  transition: none;
+  overflow: visible;
 }
 .product-card:hover {
-  transform: none;       /* Remove efeito de escala */
+  transform: none;
 }
 
-/* Imagens (ajustadas para caber 4 linhas) */
+/* Imagens */
 .product-card img.product-img {
   max-height: 30mm;
   width: auto;
@@ -185,52 +179,47 @@ body, html {
   display: block;
 }
 
-/* Tamanhos de fonte */
+/* Títulos e textos */
 .product-card h3.product-name {
   font-size: 14px;
   margin: 3px 0;
 }
-
 .product-card p.product-ref {
   font-size: 11px;
   color: #555;
   margin-bottom: 3px;
 }
-
 .product-card p.product-desc {
   font-size: 11px;
   color: #666;
   margin-bottom: 3px;
   line-height: 1.2em;
 }
-
 .product-card p.product-price {
   font-size: 12px;
   font-weight: bold;
   margin-bottom: 6px;
 }
 
-/* Ações do Produto (quantidade + botão) */
+/* Ações do Produto (botão único) */
 .product-card .product-actions {
   margin-top: 10px;
-}
-.product-card .product-actions input[type="number"] {
-  width: 45px;
-  padding: 2px;
-  margin-right: 4px;
+  display: flex;
+  justify-content: center;
 }
 .product-card .product-actions button {
-  padding: 4px 8px;
+  padding: 6px 10px;
   background-color: #4CAF50;
   color: #fff;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-/* ===== Modal de Detalhes do Produto ===== */
+/* ===== Modal de Adicionar ao Carrinho ===== */
 .modal {
-  display: none; /* Oculto inicialmente */
+  display: none;
   position: fixed;
   z-index: 2000;
   left: 0;
@@ -255,8 +244,6 @@ body, html {
   font-size: 24px;
   cursor: pointer;
 }
-
-/* Estilo para as ações dentro do modal */
 .modal-actions {
   margin-top: 10px;
   display: flex;
@@ -274,7 +261,6 @@ body, html {
   }
   .product-grid-page {
     grid-template-columns: repeat(2, 1fr);
-    gap: 5mm;
   }
   .product-card {
     padding: 2mm;
