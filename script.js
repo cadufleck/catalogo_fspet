@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6282e7d809025211b1721c7907c36d30ec7b1c69
 /* Configuração do CSV */
 const CONFIG = {
   CSV_FILE: 'produtos.csv'
@@ -219,6 +222,8 @@ function sendWhatsApp() {
     `\n\n*Total: R$ ${total.toFixed(2)}*`;
   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
 }
+<<<<<<< HEAD
+=======
 =======
 /* Configuração do CSV */
 const CONFIG = {
@@ -439,3 +444,4 @@ function closeModal() {
   document.getElementById('product-modal').style.display = 'none';
 }
 >>>>>>> c42f26541e705a5c281da2e75889335553e599ff
+>>>>>>> 6282e7d809025211b1721c7907c36d30ec7b1c69
