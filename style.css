@@ -6,7 +6,6 @@
 }
 body, html {
   font-family: Arial, sans-serif;
-  /* Fundo cinza para desktop; para mobile, a media query não altera o layout, mas o ajuste de escala fará a leitura */
   background: #333;
   overflow-x: hidden;
 }
@@ -19,7 +18,7 @@ a {
   text-decoration: none;
 }
 
-/* ===== Layout A4 para Desktop, Mobile e Impressão ===== */
+/* ===== Layout A4 ===== */
 .print-page {
   width: 210mm;
   height: 297mm;
@@ -28,8 +27,6 @@ a {
   background: #fff;
   page-break-after: always;
 }
-
-/* Cabeçalho e Rodapé Absolutos */
 .page-header {
   position: absolute;
   top: 0;
@@ -57,8 +54,6 @@ a {
   overflow: visible;
   z-index: 2;
 }
-
-/* Grade de 9 produtos por página (3 colunas x 3 linhas) */
 .product-grid-page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -66,8 +61,6 @@ a {
   gap: 2mm;
   height: 100%;
 }
-
-/* Cartões de Produtos – sem fundo, borda ou sombra */
 .product-card {
   background: transparent;
   border: none;
@@ -294,11 +287,18 @@ a {
   }
 }
 
-/* ===== Modo Mobile: Exibir exatamente o layout A4, como um PDF, sem alterações de estrutura ===== */
+/* ===== Modo Mobile: Para exibir o layout A4 completo, como um PDF, em orientação vertical ===== */
 @media screen and (max-width: 768px) {
   body, html {
     background: #fff;
     overflow-x: auto;
   }
-  /* Aqui não alteramos as dimensões das .print-page; elas continuarão 210mm x 297mm */
+  /* Mantemos as dimensões fixas da .print-page, mas se o dispositivo estiver em portrait,
+     podemos aplicar um pequeno zoom out via CSS se necessário. 
+     Se estiver "comendo metade" da página, verifique se a rolagem horizontal está habilitada.
+  */
+  /* Exemplo: Forçar um zoom out leve para que a página inteira seja visível */
+  .print-page {
+    zoom: 0.85; /* ajuste conforme necessário */
+  }
 }
