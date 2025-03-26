@@ -6,7 +6,7 @@
 }
 body, html {
   font-family: Arial, sans-serif;
-  /* Fundo cinza para desktop; no mobile, veremos apenas as páginas brancas */
+  /* Fundo cinza para desktop; por padrão, mas para mobile será sobrescrito */
   background: #333;
   overflow-x: hidden;
 }
@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 }
 
-/* ===== Layout A4 para Desktop ===== */
+/* ===== Layout A4 (Mesmos para Desktop, Mobile e Impressão) ===== */
 .print-page {
   width: 210mm;
   height: 297mm;
@@ -28,6 +28,8 @@ a {
   background: #fff;
   page-break-after: always;
 }
+
+/* Cabeçalho e Rodapé Absolutos */
 .page-header {
   position: absolute;
   top: 0;
@@ -55,6 +57,8 @@ a {
   overflow: visible;
   z-index: 2;
 }
+
+/* Grade de Produtos – 9 produtos por página (3 colunas x 3 linhas) */
 .product-grid-page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -62,6 +66,8 @@ a {
   gap: 2mm;
   height: 100%;
 }
+
+/* Cartões de Produtos – sem fundo, borda ou sombra */
 .product-card {
   background: transparent;
   border: none;
@@ -270,169 +276,7 @@ a {
   background: #45a049;
 }
 
-/* ===== Layout A4 para Desktop ===== */
-.print-page {
-  width: 210mm;
-  height: 297mm;
-  margin: 20px auto;
-  position: relative;
-  background: #fff;
-  page-break-after: always;
-}
-.page-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 210mm;
-  height: 34.86mm;
-  background: url('cabecalho.jpg') no-repeat center/cover;
-  z-index: 1;
-}
-.page-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 210mm;
-  height: 28.37mm;
-  background: url('rodape.jpg') no-repeat center/cover;
-  z-index: 1;
-}
-.page-content {
-  position: absolute;
-  top: 34.86mm;
-  bottom: 28.37mm;
-  left: 10mm;
-  right: 10mm;
-  overflow: visible;
-  z-index: 2;
-}
-.product-grid-page {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 2mm;
-  height: 100%;
-}
-.product-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.product-card img.product-img {
-  max-height: 35mm;
-  width: auto;
-  margin: 0 auto 8px auto;
-  display: block;
-}
-.product-card h3.product-name {
-  font-size: 12px;
-  margin: 4px 0;
-}
-.product-card p.product-ref {
-  font-size: 10px;
-  color: #555;
-  margin-bottom: 2px;
-}
-.product-card p.product-desc {
-  font-size: 10px;
-  color: #666;
-  margin-bottom: 2px;
-  line-height: 1.2em;
-}
-.product-card p.product-price {
-  font-size: 10px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-.product-card .product-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-}
-.product-card .product-actions button {
-  padding: 6px 10px;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #fff;
-}
-.product-card .product-actions button:hover {
-  background-color: #45a049;
-}
-
-/* ===== Modal para Adicionar ao Carrinho ===== */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 3000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-  background: #fff;
-  margin: 5% auto;
-  padding: 20px;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 8px;
-  position: relative;
-}
-.modal-content .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #aaa;
-  cursor: pointer;
-}
-.modal-content h2 {
-  margin-bottom: 10px;
-}
-.modal-content .modal-actions {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.modal-content .modal-actions label {
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #333;
-}
-.modal-content .modal-actions input[type="number"] {
-  width: 60px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 4px;
-}
-.modal-content .modal-actions button {
-  background: #4CAF50;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.modal-content .modal-actions button:hover {
-  background: #45a049;
-}
-
-/* ===== Modo Impressão (mantém layout A4) ===== */
+/* ===== Modo Impressão (Mantém Layout A4) ===== */
 @media print {
   @page {
     size: A4;
@@ -450,40 +294,18 @@ a {
   }
 }
 
-/* ===== Modo Mobile: Ajustar para que as páginas do catálogo apareçam com fundo branco, rolando verticalmente ===== */
+/* ===== Modo Mobile: Para que o layout A4 seja exibido exatamente igual ao desktop,
+         sem transformações – exibindo as páginas com fundo branco, como se fosse um PDF A4.
+         Isso pode resultar em rolagem horizontal/vertical se o dispositivo for menor.
+         (Removemos qualquer função de escala neste modo.) ===== */
 @media screen and (max-width: 768px) {
-  /* No mobile, removemos o fundo cinza do body */
   body, html {
     background: #fff;
+    overflow-x: auto;
   }
-  /* Cada página ocupa 100% da largura, com max-width para preservar a proporção A4 */
+  /* Mantém as dimensões e posição original da .print-page */
   .print-page {
-    width: 100%;
-    max-width: 400px;  /* Escolha um valor que funcione bem no seu celular */
-    aspect-ratio: 210 / 297;
     margin: 20px auto;
-    background: #fff;
-  }
-  /* Cabeçalho, rodapé e conteúdo em posição relativa para não serem cortados */
-  .page-header,
-  .page-footer,
-  .page-content {
-    position: relative;
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  /* Mantemos a grade de 3 colunas – se a tela ficar muito pequena, o usuário pode dar pinch-to-zoom */
-  .product-grid-page {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: auto;
-    gap: 5px;
-  }
-  .product-card img.product-img {
-    max-height: 120px;
-  }
-  .product-card h3.product-name,
-  .product-card p {
-    font-size: 12px;
+    /* Nenhuma transformação aplicada – o layout A4 permanece fixo */
   }
 }

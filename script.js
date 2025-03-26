@@ -10,18 +10,15 @@ let modalProductIndex = null; // Índice do produto para o modal
 document.addEventListener('DOMContentLoaded', () => {
   loadProducts();
   updateCart();
-  // Adiciona event delegation para os botões de adicionar produto
+  
+  // Event delegation para os botões "Adicionar"
   document.getElementById('product-pages').addEventListener('click', function(e) {
-    if(e.target && e.target.classList.contains('add-to-cart-btn')) {
+    if (e.target && e.target.classList.contains('add-to-cart-btn')) {
       const index = parseInt(e.target.getAttribute('data-index'));
       openAddToCartModal(index);
     }
   });
-  adjustScale(); // Ajusta a escala para mobile
 });
-
-window.addEventListener('resize', adjustScale);
-window.addEventListener('load', adjustScale);
 
 async function loadProducts() {
   try {
@@ -32,7 +29,7 @@ async function loadProducts() {
     displayProductPages(products);
   } catch (error) {
     console.error('Erro ao carregar produtos:', error);
-    // Fallback para dados dummy (para testes locais)
+    // Fallback para produtos dummy (para testes locais)
     products = [
       { id: '1', nome: 'Produto 1', referencia: 'REF001', descricao: 'Descrição do produto 1', valor: 10.0, imagem: 'placeholder.jpg', categoria: 'Categoria A' },
       { id: '2', nome: 'Produto 2', referencia: 'REF002', descricao: 'Descrição do produto 2', valor: 20.0, imagem: 'placeholder.jpg', categoria: 'Categoria B' },
@@ -74,12 +71,12 @@ function displayProductPages(productsData) {
     const pageDiv = document.createElement('div');
     pageDiv.className = 'print-page';
     
-    // Cabeçalho da página
+    // Cabeçalho
     const headerDiv = document.createElement('div');
     headerDiv.className = 'page-header';
     pageDiv.appendChild(headerDiv);
     
-    // Área de conteúdo para produtos
+    // Área de conteúdo
     const contentDiv = document.createElement('div');
     contentDiv.className = 'page-content';
     const gridDiv = document.createElement('div');
@@ -92,7 +89,6 @@ function displayProductPages(productsData) {
     pageProducts.forEach((product, index) => {
       const cardDiv = document.createElement('div');
       cardDiv.className = 'product-card';
-      // Usamos data-index para registrar o índice do produto
       cardDiv.innerHTML = `
         <img
           src="images/${product.imagem}"
@@ -116,7 +112,7 @@ function displayProductPages(productsData) {
     contentDiv.appendChild(gridDiv);
     pageDiv.appendChild(contentDiv);
     
-    // Rodapé da página
+    // Rodapé
     const footerDiv = document.createElement('div');
     footerDiv.className = 'page-footer';
     pageDiv.appendChild(footerDiv);
@@ -189,7 +185,6 @@ function updateCart() {
     cartItemsElem.innerHTML = `<p class="empty-cart">Seu carrinho está vazio.</p>`;
   } else {
     cartItemsElem.innerHTML = cart.map((item, index) => {
-      const totalItem = item.quantity * item.valor;
       return `
         <div class="cart-item">
           <img src="images/${item.imagem}" alt="${item.nome}" class="cart-item-img" onerror="this.src='images/placeholder.jpg'">
@@ -268,16 +263,8 @@ function sendWhatsApp() {
   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
 }
 
-/* Função para ajustar a escala no mobile usando "zoom" (mantendo o layout A4 idêntico) */
-function adjustScale() {
-  // Largura base do layout A4 em pixels (aproximadamente 210mm = 793.7px, considerando 96px/in)
-  const baseWidth = 793.7;
-  const viewportWidth = window.innerWidth;
-  const scale = viewportWidth < baseWidth ? viewportWidth / baseWidth : 1;
-  document.querySelectorAll('.print-page').forEach(page => {
-    page.style.zoom = scale;
-  });
-}
-
-window.addEventListener('resize', adjustScale);
-window.addEventListener('load', adjustScale);
+/* Nesta versão, não aplicamos nenhum ajuste de escala para mobile.
+   O layout A4 (210mm x 297mm) será exibido exatamente como no desktop.
+   Se a tela for menor que a página, o usuário poderá rolar para visualizar o catálogo completo,
+   exatamente como um PDF A4 fixo.
+*/
