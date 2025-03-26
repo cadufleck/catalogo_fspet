@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Viewport que permite pinch-to-zoom, sem travar o usuário -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Produtos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Página de Capa -->
+  <section id="cover" class="print-page">
+    <img src="capa.jpg" alt="Capa do Catálogo" class="cover-img">
+  </section>
+
+  <!-- Seção de Produtos -->
+  <section id="products-section">
+    <div id="product-pages"></div>
+  </section>
+
+  <!-- Ícone do Carrinho (fixo na lateral) -->
+  <div id="cart-icon" onclick="toggleCart()">
+    <span id="cart-count">0</span> Carrinho
+  </div>
+
+  <!-- Painel do Carrinho (modal grande) -->
+  <div id="cart-panel" class="cart-modal">
+    <div class="cart-modal-content">
+      <span class="close" onclick="toggleCart()">&times;</span>
+      <h3>Carrinho de Compras</h3>
+      <div id="cart-items"></div>
+    </div>
+  </div>
+
+  <!-- Modal para Adicionar ao Carrinho -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="modal-body">
+        <!-- Conteúdo preenchido dinamicamente pelo JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
