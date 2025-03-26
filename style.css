@@ -6,7 +6,7 @@
 }
 body, html {
   font-family: Arial, sans-serif;
-  /* Fundo cinza para desktop; por padrão, mas para mobile será sobrescrito */
+  /* Fundo cinza para desktop; para mobile, a media query não altera o layout, mas o ajuste de escala fará a leitura */
   background: #333;
   overflow-x: hidden;
 }
@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 }
 
-/* ===== Layout A4 (Mesmos para Desktop, Mobile e Impressão) ===== */
+/* ===== Layout A4 para Desktop, Mobile e Impressão ===== */
 .print-page {
   width: 210mm;
   height: 297mm;
@@ -58,7 +58,7 @@ a {
   z-index: 2;
 }
 
-/* Grade de Produtos – 9 produtos por página (3 colunas x 3 linhas) */
+/* Grade de 9 produtos por página (3 colunas x 3 linhas) */
 .product-grid-page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -294,18 +294,11 @@ a {
   }
 }
 
-/* ===== Modo Mobile: Para que o layout A4 seja exibido exatamente igual ao desktop,
-         sem transformações – exibindo as páginas com fundo branco, como se fosse um PDF A4.
-         Isso pode resultar em rolagem horizontal/vertical se o dispositivo for menor.
-         (Removemos qualquer função de escala neste modo.) ===== */
+/* ===== Modo Mobile: Exibir exatamente o layout A4, como um PDF, sem alterações de estrutura ===== */
 @media screen and (max-width: 768px) {
   body, html {
     background: #fff;
     overflow-x: auto;
   }
-  /* Mantém as dimensões e posição original da .print-page */
-  .print-page {
-    margin: 20px auto;
-    /* Nenhuma transformação aplicada – o layout A4 permanece fixo */
-  }
+  /* Aqui não alteramos as dimensões das .print-page; elas continuarão 210mm x 297mm */
 }

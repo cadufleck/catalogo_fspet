@@ -263,8 +263,7 @@ function sendWhatsApp() {
   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
 }
 
-/* Nesta versão, não aplicamos nenhum ajuste de escala para mobile.
-   O layout A4 (210mm x 297mm) será exibido exatamente como no desktop.
-   Se a tela for menor que a página, o usuário poderá rolar para visualizar o catálogo completo,
-   exatamente como um PDF A4 fixo.
+/* Nesta versão, removemos qualquer ajuste de escala.
+   O layout A4 (210mm x 297mm) será exibido exatamente como no desktop, tanto em vertical quanto em horizontal.
+   Se a tela for menor, o usuário poderá rolar para visualizar a página completa, exatamente como um PDF A4 fixo.
 */
