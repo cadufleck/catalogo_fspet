@@ -6,7 +6,7 @@
 }
 body, html {
   font-family: Arial, sans-serif;
-  /* Fundo cinza para desktop; será sobrescrito no mobile */
+  /* Fundo cinza para desktop; no mobile, veremos apenas as páginas brancas */
   background: #333;
   overflow-x: hidden;
 }
@@ -450,28 +450,40 @@ a {
   }
 }
 
-/* ===== Modo Tela em Celular: Remover fundo cinza e deixar somente as páginas do catálogo ===== */
+/* ===== Modo Mobile: Ajustar para que as páginas do catálogo apareçam com fundo branco, rolando verticalmente ===== */
 @media screen and (max-width: 768px) {
+  /* No mobile, removemos o fundo cinza do body */
   body, html {
-    background: #fff; /* Fundo branco no celular */
+    background: #fff;
   }
+  /* Cada página ocupa 100% da largura, com max-width para preservar a proporção A4 */
   .print-page {
-    /* Remover o transform scale e usar largura total */
-    transform: none;
     width: 100%;
-    height: auto;
-    margin: 0 auto;
+    max-width: 400px;  /* Escolha um valor que funcione bem no seu celular */
+    aspect-ratio: 210 / 297;
+    margin: 20px auto;
+    background: #fff;
   }
-  /* Deixar cabeçalho, rodapé e conteúdo em fluxo normal para evitar cortes */
-  .page-header, .page-footer, .page-content {
+  /* Cabeçalho, rodapé e conteúdo em posição relativa para não serem cortados */
+  .page-header,
+  .page-footer,
+  .page-content {
     position: relative;
     width: 100%;
     height: auto;
+    margin-bottom: 10px;
   }
-  /* Opcional: Ajustar grid para 3 colunas se couber ou permitir overflow vertical */
+  /* Mantemos a grade de 3 colunas – se a tela ficar muito pequena, o usuário pode dar pinch-to-zoom */
   .product-grid-page {
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: auto;
-    gap: 10px;
+    gap: 5px;
+  }
+  .product-card img.product-img {
+    max-height: 120px;
+  }
+  .product-card h3.product-name,
+  .product-card p {
+    font-size: 12px;
   }
 }
