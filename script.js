@@ -113,4 +113,145 @@ function displayProductPages(productsData) {
   }
 }
 
-/* Carrinho e demais funções... (mesmo que antes) */
+function openAddToCartModal(productIndex) {
+  modalProductIndex = productIndex;
+  const product = products[productIndex];
+  
+  if (!product) {
+    console.error("Produto não encontrado para o índice:", productIndex);
+    return;
+  }
+  
+  const modalBody = document.getElementById('modal-body');
+  modalBody.innerHTML = `
+    <h2>${product.nome}</h2>
+    <p><strong>Ref:</strong> ${product.referencia}</p>
+    <p><strong>Preço:</strong> R$ ${product.valor.toFixed(2)}</p>
+    <div class="modal-actions">
+      <label for="modal-qty">Quantidade:</label>
+      <input type="number" id="modal-qty" value="1" min="1">
+      <button onclick="addToCartFromModal()">Adicionar</button>
+    </div>
+  `;
+  
+  document.getElementById('product-modal').style.display = 'block';
+}
+
+function addToCartFromModal() {
+  const qtyInput = document.getElementById('modal-qty');
+  const qty = parseInt(qtyInput.value) || 1;
+  addToCart(modalProductIndex, qty);
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('product-modal').style.display = 'none';
+}
+
+function addToCart(productIndex, quantity) {
+  console.log("Adicionando ao carrinho:", productIndex, quantity);
+  const qty = parseInt(quantity) || 1;
+  const product = products[productIndex];
+  if (product) {
+    const index = cart.findIndex(item => item.id === product.id);
+    if (index >= 0) {
+      cart[index].quantity += qty;
+    } else {
+      const productWithQty = { ...product, quantity: qty };
+      cart.push(productWithQty);
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
+  } else {
+    console.error("Produto não encontrado para index:", productIndex);
+  }
+}
+
+function updateCart() {
+  const cartCountElem = document.getElementById('cart-count');
+  const cartItemsElem = document.getElementById('cart-items');
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartCountElem.textContent = totalItems;
+  
+  if (cart.length === 0) {
+    cartItemsElem.innerHTML = `<p class="empty-cart">Seu carrinho está vazio.</p>`;
+  } else {
+    cartItemsElem.innerHTML = cart.map((item, index) => {
+      const totalItem = item.quantity * item.valor;
+      return `
+        <div class="cart-item">
+          <img src="images/${item.imagem}" alt="${item.nome}" class="cart-item-img" onerror="this.src='images/placeholder.jpg'">
+          <div class="cart-item-info">
+            <h4 class="cart-item-name">${item.nome}</h4>
+            <p class="cart-item-price">R$ ${item.valor.toFixed(2)}</p>
+            <div class="cart-item-controls">
+              <button onclick="decreaseQty(${index})" class="qty-btn">–</button>
+              <input type="number" value="${item.quantity}" min="1" onchange="updateCartItem(${index}, this.value)">
+              <button onclick="increaseQty(${index})" class="qty-btn">+</button>
+            </div>
+          </div>
+          <button onclick="removeFromCart(${index})" class="remove-btn">&times;</button>
+        </div>
+      `;
+    }).join('') + `
+      <div class="cart-summary">
+        <h3>Total: R$ ${cart.reduce((sum, item) => sum + item.quantity * item.valor, 0).toFixed(2)}</h3>
+        <button onclick="clearCart()" class="clear-cart-btn">Limpar Carrinho</button>
+        <button onclick="sendWhatsApp()" class="checkout-btn">Enviar Orçamento via WhatsApp</button>
+      </div>
+    `;
+  }
+}
+
+function updateCartItem(index, newQty) {
+  const qty = parseInt(newQty);
+  if (qty < 1) return;
+  cart[index].quantity = qty;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCart();
+}
+
+function decreaseQty(index) {
+  if (cart[index].quantity > 1) {
+    cart[index].quantity--;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
+  }
+}
+
+function increaseQty(index) {
+  cart[index].quantity++;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCart();
+}
+
+function clearCart() {
+  if (confirm('Deseja limpar o carrinho?')) {
+    cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
+  }
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCart();
+}
+
+function toggleCart() {
+  const panel = document.getElementById('cart-panel');
+  panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+}
+
+function sendWhatsApp() {
+  if (cart.length === 0) {
+    alert('Carrinho vazio!');
+    return;
+  }
+  const total = cart.reduce((sum, item) => sum + (item.valor * item.quantity), 0);
+  const message = `*Orçamento Solicitado*:\n\n` +
+    cart.map(item => `➤ ${item.nome} - ${item.quantity} x R$ ${item.valor.toFixed(2)}`).join('\n') +
+    `\n\n*Total: R$ ${total.toFixed(2)}*`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
+}
