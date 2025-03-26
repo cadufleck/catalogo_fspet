@@ -10,7 +10,18 @@ let modalProductIndex = null; // Índice do produto para o modal
 document.addEventListener('DOMContentLoaded', () => {
   loadProducts();
   updateCart();
+  // Adiciona event delegation para os botões de adicionar produto
+  document.getElementById('product-pages').addEventListener('click', function(e) {
+    if(e.target && e.target.classList.contains('add-to-cart-btn')) {
+      const index = parseInt(e.target.getAttribute('data-index'));
+      openAddToCartModal(index);
+    }
+  });
+  adjustScale(); // Ajusta a escala para mobile
 });
+
+window.addEventListener('resize', adjustScale);
+window.addEventListener('load', adjustScale);
 
 async function loadProducts() {
   try {
@@ -63,12 +74,12 @@ function displayProductPages(productsData) {
     const pageDiv = document.createElement('div');
     pageDiv.className = 'print-page';
     
-    // Cabeçalho
+    // Cabeçalho da página
     const headerDiv = document.createElement('div');
     headerDiv.className = 'page-header';
     pageDiv.appendChild(headerDiv);
     
-    // Área de conteúdo
+    // Área de conteúdo para produtos
     const contentDiv = document.createElement('div');
     contentDiv.className = 'page-content';
     const gridDiv = document.createElement('div');
@@ -81,6 +92,7 @@ function displayProductPages(productsData) {
     pageProducts.forEach((product, index) => {
       const cardDiv = document.createElement('div');
       cardDiv.className = 'product-card';
+      // Usamos data-index para registrar o índice do produto
       cardDiv.innerHTML = `
         <img
           src="images/${product.imagem}"
@@ -93,7 +105,7 @@ function displayProductPages(productsData) {
         <p class="product-desc">${product.descricao}</p>
         <p class="product-price">R$ ${product.valor.toFixed(2)}</p>
         <div class="product-actions">
-          <button onclick="openAddToCartModal(${start+index})" title="Adicionar">
+          <button class="add-to-cart-btn" data-index="${start + index}" title="Adicionar">
             &#43;
           </button>
         </div>
@@ -104,7 +116,7 @@ function displayProductPages(productsData) {
     contentDiv.appendChild(gridDiv);
     pageDiv.appendChild(contentDiv);
     
-    // Rodapé
+    // Rodapé da página
     const footerDiv = document.createElement('div');
     footerDiv.className = 'page-footer';
     pageDiv.appendChild(footerDiv);
@@ -255,3 +267,17 @@ function sendWhatsApp() {
     `\n\n*Total: R$ ${total.toFixed(2)}*`;
   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
 }
+
+/* Função para ajustar a escala no mobile usando "zoom" (mantendo o layout A4 idêntico) */
+function adjustScale() {
+  // Largura base do layout A4 em pixels (aproximadamente 210mm = 793.7px, considerando 96px/in)
+  const baseWidth = 793.7;
+  const viewportWidth = window.innerWidth;
+  const scale = viewportWidth < baseWidth ? viewportWidth / baseWidth : 1;
+  document.querySelectorAll('.print-page').forEach(page => {
+    page.style.zoom = scale;
+  });
+}
+
+window.addEventListener('resize', adjustScale);
+window.addEventListener('load', adjustScale);
